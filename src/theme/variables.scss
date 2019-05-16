@@ -2,6 +2,45 @@
 // http://ionicframework.com/docs/theming/
 
 /** Ionic CSS Variables **/
+
+
+
+@font-face {
+  font-family: 'Alef';
+  src: url('/assets/fonts/Alef-regular.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'David';
+  src: url('/assets/fonts/david.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hadasim';
+  src: url('/assets/fonts/hadasim.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StamA';
+  src: url('/assets/fonts/stamashkenazclm-webfont.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StamS';
+  src: url('/assets/fonts/stamsefaradclm-webfont.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+
 :root {
   /** primary **/
   --ion-color-primary: #3880ff;
@@ -80,10 +119,12 @@
   --ion-toolbar-background:#1c2c8c; 
   --background: linear-gradient(to bottom, #1c2c8c, #34B3E6); /* Standard syntax */
   --color: #1c2c8c;
-  --ion-font-family:StamS;
+  --ion-font-family:'StamS';
   --ion-item-background:transparent;
   --ion-color-base:#2effea;
 
 }
+
+
 
 

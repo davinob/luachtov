@@ -13,10 +13,10 @@
       <ion-label color="primary" stacked>קו רוחב </ion-label>
       <ion-input type="number" [(ngModel)]="dataP.theGeneralSettings.lat" (ionFocus)='editInput("lat",true)'></ion-input>
 
-      <ion-button *ngIf="allInputsShows?.lat"  icon-only item-end clear (click)='cancelInput("lat")'>
+      <ion-button *ngIf="allInputsShows?.lat"  icon-only slot="end" clear (click)='cancelInput("lat")'>
         <ion-icon class="red" name="redo"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="allInputsShows?.lat"  icon-only item-end clear (click)='saveInput("lat")'
+      <ion-button *ngIf="allInputsShows?.lat"  icon-only slot="end" clear (click)='saveInput("lat")'
         [disabled]="dataP.theGeneralSettings?.lat==''">
         <ion-icon class="green" name="checkmark"></ion-icon>
       </ion-button>
@@ -26,10 +26,10 @@
       <ion-label color="primary" stacked>קו אורך </ion-label>
       <ion-input type="number" [(ngModel)]="dataP.theGeneralSettings.lng" (ionFocus)='editInput("lng",true)'></ion-input>
 
-      <ion-button *ngIf="allInputsShows?.lng" icon-only item-end clear (click)='cancelInput("lng")'>
+      <ion-button *ngIf="allInputsShows?.lng" icon-only slot="end" clear (click)='cancelInput("lng")'>
         <ion-icon class="red" name="redo"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="allInputsShows?.lng" icon-only item-end clear (click)='saveInput("lng")'
+      <ion-button *ngIf="allInputsShows?.lng" icon-only slot="end" clear (click)='saveInput("lng")'
         [disabled]="dataP.theGeneralSettings?.lng==''">
         <ion-icon class="green" name="checkmark"></ion-icon>
       </ion-button>
@@ -39,10 +39,10 @@
       <ion-label color="primary" stacked>Zone Id </ion-label>
       <ion-input type="text" [(ngModel)]="dataP.theGeneralSettings.zoneId" (ionFocus)='editInput("zoneId",true)'></ion-input>
 
-      <ion-button *ngIf="allInputsShows?.zoneId"  icon-only item-end clear (click)='cancelInput("zoneId")'>
+      <ion-button *ngIf="allInputsShows?.zoneId"  icon-only slot="end" clear (click)='cancelInput("zoneId")'>
         <ion-icon class="red" name="redo"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="allInputsShows?.zoneId"  icon-only item-end clear (click)='saveInput("zoneId")'
+      <ion-button *ngIf="allInputsShows?.zoneId"  icon-only slot="end" clear (click)='saveInput("zoneId")'
         [disabled]="dataP.theGeneralSettings?.zoneId==''">
         <ion-icon class="green" name="checkmark"></ion-icon>
       </ion-button>
