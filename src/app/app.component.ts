@@ -9,6 +9,37 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+
+
+  public appPages = [
+    {
+      title: 'בית',
+      url: '/home'
+    
+    },
+    {
+      title: 'הגדרות כלליות',
+      url: '/general-settings'
+     
+    },
+    {
+      title: 'הגדרות זמנים',
+      url: '/zmanim-settings'
+    
+    },
+    {
+      title: 'הגדרות מידע והלכות',
+      url: '/shiurim-settings'
+     
+    },
+    {
+      title: 'הנצחות',
+      url: '/hanzaha-settings'
+     
+    }
+  ];
+
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,

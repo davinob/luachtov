@@ -8,11 +8,18 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { IonicStorageModule } from '@ionic/storage';
+
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, 
+    IonicModule.forRoot(), 
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+      driverOrder: ['localstorage','indexeddb', 'sqlite']})
+      , AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,

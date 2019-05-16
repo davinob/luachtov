@@ -1,0 +1,181 @@
+<ion-header>
+  <ion-toolbar>
+     <ion-title>הגדרות זמנים</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="global" padding>
+
+
+  <div class="entryBlock">
+
+    <ion-row>
+      <ion-col col-4>
+        <ion-item>
+         <ion-label class="namePanel">זמנים היום</ion-label>
+         <ion-checkbox slot="start" [(ngModel)]="dataP.theZmanimList[0].enabled" (ionChange)='saveInput("dummy",0)'></ion-checkbox>
+       </ion-item>
+      </ion-col>
+
+      <ion-col *ngIf="dataP.theZmanimList[0].enabled" col-3>
+        <ion-item>
+          <ion-label color="primary" stacked>שם</ion-label>
+          <ion-input type="text" [(ngModel)]="dataP.theZmanimList[0].name" (ionFocus)='editInput("zmanimGName",0,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[0]?.zmanimGName"  icon-only item-end clear (click)='cancelInput("zmanimGName",0)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[0]?.zmanimGName"  icon-only item-end clear (click)='saveInput("zmanimGName",0)'
+            [disabled]="dataP.theZmanimList[0].name==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col>
+      <ion-col *ngIf="dataP.theZmanimList[0].enabled" col-2>
+        <ion-item>
+          <ion-label color="primary" stacked>מספר שניות</ion-label>
+          <ion-input type="number" [(ngModel)]="dataP.theZmanimList[0].duration" (ionFocus)='editInput("zmanimGDuration",0,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[0]?.zmanimGDuration"  icon-only item-end clear (click)='cancelInput("zmanimGDuration",0)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[0]?.zmanimGDuration"  icon-only item-end clear (click)='saveInput("zmanimGDuration",0)'
+            [disabled]="dataP.theZmanimList[0].duration==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+
+    <div *ngIf="dataP.theZmanimList[0].enabled">
+      <ion-list>
+        <ion-label class="middleTitle">זמנים להצגה</ion-label>
+        <ion-item class="line" *ngFor="let zman of dataP.theZmanimList[0].list">
+          <ion-label>{{zman.description0}}</ion-label>
+          <ion-checkbox slot="start" [(ngModel)]="zman.isChecked" (ionChange)='saveInput("dummy",0)'></ion-checkbox>
+        </ion-item>
+      </ion-list>
+
+    </div>
+  </div>
+
+
+  <div class="entryBlock" *ngFor="let zmanPerso of dataP.theZmanimList |slice :1 ; let i=index">
+
+
+    <ion-row>
+      <ion-col col-4>
+        <ion-item>
+        <ion-label class="namePanel">זמנים פרטי #{{zmanPerso.id}} </ion-label>
+        <ion-checkbox slot="start" [(ngModel)]="zmanPerso.enabled" (ionChange)='saveInput("dummy",0)'></ion-checkbox>
+        </ion-item>
+      </ion-col>
+      <ion-col *ngIf="zmanPerso.enabled" col-3>
+        <ion-item>
+          <ion-label color="primary" stacked>שם</ion-label>
+          <ion-input type="text" [(ngModel)]="zmanPerso.name" (ionFocus)='editInput("zmanimPName",i,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[i]?.zmanimPName"  icon-only item-end clear (click)='cancelInput("zmanimPName",i)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[i]?.zmanimPName"  icon-only item-end clear (click)='saveInput("zmanimPName",i)'
+            [disabled]="zmanPerso.name==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col >
+      <ion-col *ngIf="zmanPerso.enabled" col-2>
+        <ion-item>
+          <ion-label color="primary" stacked>מספר שניות</ion-label>
+          <ion-input type="number" [(ngModel)]="zmanPerso.duration" (ionFocus)='editInput("zmanimPDuration",i,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[i]?.zmanimPDuration"  icon-only item-end clear (click)='cancelInput("zmanimPDuration",i)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[i]?.zmanimPDuration"  item-end clear (click)='saveInput("zmanimPDuration",i)'
+            [disabled]="zmanPerso.duration==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <div *ngIf="zmanPerso.enabled">
+
+      <div class="middleTitle" stacked>הוספת זמן</div>
+      <ion-row>
+        <ion-col>
+
+          <ion-item>
+            <ion-label color="primary" stacked>שם </ion-label>
+            <ion-input type="text" [(ngModel)]="zmanPerso.tmpName"> </ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+
+          <ion-item>
+            <ion-label color="primary" stacked>סוג </ion-label>
+            <ion-select [(ngModel)]="zmanPerso.tmpType">
+              <ion-select-option value="fixed">קבוע</ion-select-option>
+              <ion-select-option value="לפני">לפני</ion-select-option>
+              <ion-select-option value="אחרי">אחרי</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+        <ion-col *ngIf="zmanPerso.tmpType=='לפני' ||zmanPerso.tmpType=='אחרי'">
+          <ion-item>
+            <ion-label color="primary" stacked>סוג </ion-label>
+            <ion-select [(ngModel)]="zmanPerso.tmpRelation">
+              <ion-select-option *ngFor="let zmanOption of dataP.autoZmanim" [value]="zmanOption">{{zmanOption.description0}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-item>
+            <ion-label *ngIf="!(zmanPerso.tmpType=='לפני' ||zmanPerso.tmpType=='אחרי')" color="primary" stacked>זמן</ion-label>
+            <ion-label *ngIf="zmanPerso.tmpType=='לפני' ||zmanPerso.tmpType=='אחרי'" color="primary" stacked>דקות</ion-label>
+            <ion-input type="text" [(ngModel)]="zmanPerso.tmpValue"> </ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col>
+          <ion-button  (click)='addValueToListOfZmanim(zmanPerso)'>
+            הוסף זמן
+          </ion-button>
+        </ion-col>
+
+      </ion-row>
+
+
+      <ion-list>
+        
+        <ion-label class="middleTitle">זמנים להצגה</ion-label>
+        <ion-reorder-group (ionItemReorder)="onRenderItems($event, zmanPerso.list)" disabled="false"> 
+        <ion-item-sliding *ngFor="let zman of zmanPerso.list">
+          <ion-item class="line">
+            <ion-label>{{zman.description}}</ion-label>
+            <ion-label>{{zman.value}}</ion-label>
+            <ion-label *ngIf="zman.type!='fixed'">{{zman.type}}</ion-label>
+            <ion-label *ngIf="zman.type!='fixed'">{{zman.relation?.description}}</ion-label>
+            <ion-reorder slot="end"></ion-reorder>
+          </ion-item>
+          <ion-item-options (ionSwipe)="removeZman(zmanPerso,zman)" side="end" icon-start>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-reorder-group>
+      </ion-list>
+  
+    </div>
+
+
+  </div>
+
+
+
+<ion-content>
+
+</ion-content>

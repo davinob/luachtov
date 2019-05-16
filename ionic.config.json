@@ -1,5 +1,7 @@
 {
   "name": "luachtov",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

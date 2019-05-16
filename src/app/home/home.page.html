@@ -1,14 +1,71 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+  
+  <ion-content padding class="content global">
 
-<ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+        <div class="lineCont main">
+            <ion-row>
+            <!--     <ion-col >
+                    <div class="hanza">
+                        <div class="pic"></div>
+                        <div class="hanzaText"> {{currentHanza1?.text}}</div>
+
+                    </div>
+
+                </ion-col> !-->
+         
+                <ion-col >
+            <div class="title">
+                <div class="buttonTitle">
+                    <div class="lineItem currentDate">
+                            {{currentHDateStr}}
+                    </div>
+                    <div class="lineItem currentTime">
+                            {{currentTimeStr}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="lineCont">
+                    <div class="parasha"> {{currentParasha}}</div>
+            </div>
+
+            <div class="lineCont">
+                    <div class="line"></div>
+            </div>
+            </ion-col>
+          <!--  <ion-col >
+                    <div class="hanza">
+                            <div class="pic"></div>
+                            <div class="hanzaText"> {{currentHanza2?.text}}</div>
+    
+                        </div>
+            </ion-col> !-->
+        </ion-row>
+
+        </div>
+
+    <div class="lineCont rest">
+            <div class="mipanel marginLeft">
+                <div class="panelContent">
+                    <div class="title titlePanel">
+                            {{zmanimTitle}}
+                    </div>
+                    <div #panelRightContent class="mainContent">
+                        <ion-row  class="coupleVals" *ngFor="let time of listOfTimes">
+                        <ion-col col-8 class="hourKey">{{time.description}}</ion-col>
+                        <ion-col col-4 class="hourVal">{{time.value}}</ion-col>
+                        </ion-row>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mipanel">
+                    <div class="panelContent">
+
+                    </div>
+
+
+            </div>
+    </div>
+
+
 </ion-content>

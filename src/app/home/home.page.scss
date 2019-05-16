@@ -1,1 +1,138 @@
+    ion-content {
+        --background: none;
+        background-image: url('/assets/imgs/kotel.jpg');
+        background-size:cover;
+      
+    }
 
+    .content
+    {
+        font-size:30px;
+        color:#132a7c;
+        font-family: "StamS";
+    }
+
+    
+    .buttonTitle
+    {
+        background-image: url('/assets/imgs/titleButtonStretch.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 73px;
+        font-weight: bold;
+        padding-left: 10px;
+        padding-top: 10px;
+        width: 425px;
+        display: inline-block;
+    }
+
+    .title{
+        text-align: center;
+        width:100%;
+    }
+
+    .lineCont{
+        text-align: center;
+        width:100%;
+        height: 20px;
+        
+    }
+    .line{
+        display: inline-block;
+        width: 459px;
+        background-image: url('/assets/imgs/line1.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 15px;
+        font-family: bold;
+    }
+
+    .main{
+        height:38%;
+        max-height: 120px;
+}
+    .rest
+    {
+        min-height:65%;
+        display:inline-flex;
+        margin-top: 10px;
+    }
+
+    .marginLeft{
+        margin-left: 10px;
+    }
+
+    .mipanel
+    {
+        width: 50%;
+        height: 100%;
+        background-image: url('/assets/imgs/rectangle.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        text-align: center;
+    }
+
+    .titlePanel
+    {
+        display: inline-block;
+        height:10px;
+        margin-top: 22px;
+        margin-bottom: 15px;
+    }
+
+    .coupleVals
+    {
+        font-size:23px;
+        width: 100%;
+        display: inline-flex;
+    }
+
+    .hourKey
+    {
+        text-align:right
+    }
+   
+    .hourVal
+    {
+        text-align:left
+    }
+
+    .panelContent
+    {
+        display: -webkit-inline-box;
+        width: 100%;
+        height: 80%;
+        line-height: 25px
+    }
+
+    .mainContent
+    {
+        display: inline-block;
+        overflow-y: hidden;
+        scroll-behavior: smooth;
+        height: 90%;
+        padding-left: 30px;
+        padding-right: 30px;
+   }
+
+
+   
+   
+    .parasha{
+        font-size:25px;
+    }
+
+    .currentDate
+    {
+        font-size: 20px;
+    }
+
+    .currentTime
+    {
+        font-size: 20px;
+        font-family: sans-serif;
+        font-weight:bolder;
+    }

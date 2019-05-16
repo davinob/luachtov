@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+     <ion-title>הנצחות</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="global" padding>
+
+  <ion-row>
+
+    <ion-col col-3>
+      <ion-item>
+        <ion-label color="primary" stacked>מספר שניות</ion-label>
+        <ion-input type="number" [(ngModel)]="dataP.theHanzahaSettings.duration" (ionFocus)='editInput("duration",true)'></ion-input>
+
+        <ion-button *ngIf="allInputsShows?.duration" icon-only item-end clear (click)='cancelInput("duration","theHanzahaSettings")'>
+          <ion-icon class="red" name="redo"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="allInputsShows?.duration" icon-only item-end clear (click)='saveInput("duration","theHanzahaSettings")'
+          [disabled]="dataP.theHanzahaSettings?.duration==''">
+          <ion-icon class="green" name="checkmark"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+
+  <div class="middleTitle" stacked>הוספת הנצחה</div>
+  <ion-row>
+    <ion-col>
+
+      <ion-item>
+        <ion-label color="primary" stacked>סוג </ion-label>
+        <ion-select [(ngModel)]="tmpType">
+          <ion-select-option value="לעילוי נשמת">לעילוי נשמת</ion-select-option>
+          <ion-select-option value="לזכות">לזכות</ion-select-option>
+          <ion-select-option value="תודות">תודות</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+
+
+
+    <ion-col>
+      <ion-item>
+        <ion-label color="primary" stacked>תוכן </ion-label>
+        <ion-input type="text" [(ngModel)]="tmpText"> </ion-input>
+      </ion-item>
+    </ion-col>
+
+    <ion-col>
+      <ion-button  (click)='addValueToListOfHanzahot()'>
+        הוסף הנצחה
+      </ion-button>
+    </ion-col>
+
+  </ion-row>
+
+
+  <ion-list>
+    <ion-label class="middleTitle">הנצחות להצגה</ion-label>
+    <ion-reorder-group (ionItemReorder)="onRenderItems($event, dataP.theHanzahotList)" disabled="false"> 
+    <ion-item-sliding *ngFor="let hanza of dataP.theHanzahotList">
+      <ion-item class="line">
+        <ion-label>{{hanza.type}}</ion-label>
+        <ion-label>{{hanza.text}}</ion-label>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+      <ion-item-options (ionSwipe)="removeHanza(hanza)" side="end" icon-start>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-reorder-group>
+  </ion-list>
+
+</ion-content>

@@ -9,3 +9,134 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+
+
+
+ion-content{
+  --background: linear-gradient(to bottom, #1c2c8c, #34B3E6); /* Standard syntax */
+  direction: rtl;
+  --color:#512612;
+}      
+
+
+ion-title{
+  --color:white;
+}
+
+ion-item{
+  --background:none;
+  --background-color:transparent;
+  color:white;
+  --color:white;
+}
+
+ion-label   {
+  --color:blue;
+  color:blue;
+}
+
+@font-face {
+  font-family: 'Alef';
+  src: url('/assets/fonts/Alef-regular.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'David';
+  src: url('/assets/fonts/david.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Hadasim';
+  src: url('/assets/fonts/hadasim.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StamA';
+  src: url('/assets/fonts/stamashkenazclm-webfont.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StamS';
+  src: url('/assets/fonts/stamsefaradclm-webfont.ttf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+
+.red
+{
+color:red
+}
+
+.green
+{
+  color:rgb(83, 243, 83);
+}
+
+
+ion-label {
+  margin-left: 5px;
+}
+
+ion-input {
+  padding: 5px;
+}
+
+ion-row {
+  align-items: center;
+  text-align: center;
+}
+
+.input-wrapper {
+   border-bottom: 0px;
+}
+
+.item-md.item-block .item-inner {
+  border-bottom: 0px solid #dedede;
+}
+
+.item-md.item-input.ng-valid.item-input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner, .item-md.item-input.ng-valid.input-has-value:not(.input-has-focus):not(.item-input-has-focus) .item-inner {
+   border-bottom-color: white;
+  -webkit-box-shadow: inset 0 -1px 0 0 white;
+  /* box-shadow: inset 0 -1px 0 0 #32db64; */
+}
+
+.list-md ion-item-sliding {
+   background-color:transparent;
+}
+
+.alert-md .alert-button .button-inner {
+  color: #1c2c8c;
+}
+
+.item-md {
+  color:white;
+}
+
+.item-cover
+{
+  color:white;
+}
+
+.label-md-primary, .item-input .label-md-primary, .item-select .label-md-primary, .item-datetime .label-md-primary {
+  color: white;
+}
+
+.select-text {
+  visibility: initial;
+ }
+
+ 
+ .item-input-has-focus
+ {
+     color:white;
+ }
