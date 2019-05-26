@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { DataService,Zmanim } from '../data.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-zmanim-settings',
@@ -13,7 +14,7 @@ export class ZmanimSettingsPage implements OnInit {
   ngOnInit() {
   }
 
-constructor(public dataP:DataService, public storage:Storage) {
+constructor(public dataP:DataService, public storage:Storage, public menuCtrl:MenuController) {
   }
 
   
@@ -22,8 +23,8 @@ allInputsShows:any=new Array(100);
 
 editInput(name:string,id:number,bool:boolean)
 {
-  console.log("EDIT INPUT");
-  console.log(name+id);
+  //console.log("EDIT INPUT");
+  //console.log(name+id);
   let obj={};
   obj[name]=bool;
   this.allInputsShows[id]=obj;
@@ -33,7 +34,7 @@ editInput(name:string,id:number,bool:boolean)
   {
     this.saveToStorage();
    this.editInput(name,id,false);
-   console.log(this.dataP.theZmanimList);
+   //console.log(this.dataP.theZmanimList);
 }
 
 async cancelInput(name:string,id:number)
@@ -55,20 +56,20 @@ addValueToListOfZmanim(zmanPerso:Zmanim)
     zmanPerso.tmpType=null;
     zmanPerso.tmpRelation=null;
   this.saveToStorage();
-  console.log(zmanPerso);
+  //console.log(zmanPerso);
 }
 
 removeZman(zmanPerso:Zmanim, zman:any)
 {
-  console.log(zmanPerso);
+  //console.log(zmanPerso);
   zmanPerso.list=zmanPerso.list.filter(elem=>
     {
-      console.log(elem);
-      console.log(zman);
+      //console.log(elem);
+      //console.log(zman);
       return elem.id!=zman.id;
     });
   this.saveToStorage();
-  console.log(zmanPerso);
+  //console.log(zmanPerso);
 }
 
 saveToStorage()
@@ -78,12 +79,19 @@ saveToStorage()
 
 
 onRenderItems(event, list:Array<any>) {
-  console.log(`Moving item from ${event.detail.from} to ${event.detail.to}`);
+  //console.log(`Moving item from ${event.detail.from} to ${event.detail.to}`);
    let draggedItem = list.splice(event.detail.from,1)[0];
    list.splice(event.detail.to,0,draggedItem)
    event.detail.complete();
-  console.log(list);
+  //console.log(list);
   this.saveToStorage();
+}
+
+
+openMenu()
+{
+  //console.log("OPEN MENU");
+  this.menuCtrl.open();
 }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { DataService } from '../data.service';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-general-settings',
@@ -9,21 +10,23 @@ import { DataService } from '../data.service';
 })
 export class GeneralSettingsPage implements OnInit {
 
-  constructor(public dataP:DataService, public storage:Storage) {
+  constructor(public dataP:DataService, public storage:Storage, public menuCtrl:MenuController) {
   }
 
 
   ngOnInit() {
-    console.log('ionViewDidLoad GeneralSettingsPage');
+    //console.log('ionViewDidLoad GeneralSettingsPage');
   }
   
+
+
 
 allInputsShows:any;
 
 editInput(name:string,bool:boolean)
 {
-  console.log("EDIT INPUT");
-  console.log(name);
+  //console.log("EDIT INPUT");
+  //console.log(name);
   let obj={};
   obj[name]=bool;
   this.allInputsShows=obj;
@@ -33,7 +36,7 @@ editInput(name:string,bool:boolean)
   {
     this.saveToStorage();
    this.editInput(name,false);
-   console.log(this.dataP.theGeneralSettings);
+   //console.log(this.dataP.theGeneralSettings);
 }
 
 async cancelInput(name:string)
@@ -50,5 +53,11 @@ saveToStorage()
   this.storage.set("theGeneralSettings",this.dataP.theGeneralSettings);
 }
 
+
+openMenu()
+{
+  //console.log("OPEN MENU");
+  this.menuCtrl.open();
+}
 
 }

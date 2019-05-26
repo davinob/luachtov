@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { IonicStorageModule } from '@ionic/storage';
       driverOrder: ['localstorage','indexeddb', 'sqlite']})
       , AppRoutingModule],
   providers: [
+    ScreenOrientation,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

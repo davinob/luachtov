@@ -7,6 +7,7 @@ import KosherZmanim from "kosher-zmanim";
 import { Storage } from '@ionic/storage';
 import { DataService } from '../data.service';
 import { Observable, Subscription, timer } from 'rxjs';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +19,9 @@ export class HomePage {
 
   
   @ViewChild("panelRightContent") panelRightContent;
+  @ViewChild("panelHanzahotContent") panelHanzaotContent;
 
-  constructor(public storage: Storage, public dataP: DataService) {
+  constructor(public storage: Storage, public dataP: DataService, public menuCtrl:MenuController) {
 
   }
 
@@ -36,7 +38,7 @@ export class HomePage {
 
 
   ionViewDidEnter() {
-    console.log("ENTERING");
+    //console.log("ENTERING");
     this.stopAll = false;
    this.timer = timer(0, 200);
 
@@ -44,7 +46,7 @@ export class HomePage {
 
     this.dataP.stillInInit.subscribe(isInInit => {
       if (isInInit) {
-        console.log("WAITING FOR DATAP INIT");
+        //console.log("WAITING FOR DATAP INIT");
       }
       else {
         this.initMe();
@@ -56,8 +58,13 @@ export class HomePage {
 
   }
 
+  openMenu()
+  {
+    this.menuCtrl.open();
+  }
+
   initMe() {
-    console.log("INIT ME");
+    //console.log("INIT ME");
 
 let firstTime=true;
     this.timerSub = this.timer.subscribe((val) => {
@@ -75,27 +82,22 @@ let firstTime=true;
 
 
   ionViewDidLeave() {
-    console.log("LEAVINNG");
+    //console.log("LEAVINNG");
     this.stopAll = true;
     if (this.timerSub && !this.timerSub.closed)
       this.timerSub.unsubscribe();
-    console.log("LEFT");
+    //console.log("LEFT");
   }
 
 
   async goodSleep(ms: number) {
-    await Promise.race([this.waitForStopAll(), this.sleep(ms)]);
+    await this.sleep(ms);
   }
 
-  async waitForStopAll() {
-    while (!this.stopAll) {
-      await this.sleep(0.001);
-    }
-  }
 
   async sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms * 1000));
-  }
+  } 
 
   zmanimTitle;
   listOfTimes;
@@ -103,7 +105,7 @@ let firstTime=true;
   async handlePanelsZmanim() {
     let i = 0;
 
-    console.log("handlePanelsZmanim");
+    //console.log("handlePanelsZmanim");
 
     let zmanimList = this.dataP.theZmanimList;
 
@@ -111,10 +113,10 @@ let firstTime=true;
       i = (i + 1) % zmanimList.length;
       let theZman = zmanimList[i];
       if (theZman.enabled) {
-        console.log("Printing panel num" + i);
+        //console.log("Printing panel num" + i);
         this.zmanimTitle = theZman.name;
-        console.log("ZMANIM TITLE");
-        console.log(this.zmanimTitle);
+        //console.log("ZMANIM TITLE");
+        //console.log(this.zmanimTitle);
 
         if (theZman.id == 0) {
           this.setListOfTimesForZmanimG(theZman.list);
@@ -122,41 +124,115 @@ let firstTime=true;
         else
           this.setListOfTimesForZmanimP(theZman.list);
 
-        await this.goodSleep(0.5);
-        console.log("PANEL CONTENT");
-        console.log(this.panelRightContent);
-
-        console.log("Waiting for scroll panel and duration of " + theZman.duration);
-        await this.scrollPanel(this.panelRightContent);
-        await this.goodSleep(theZman.duration);
+        //console.log("Waiting for scroll panel and duration of " + theZman.duration);
+        await this.goodSleep(0.2);
+        this.stopScrolls=false;
+        await this.scrollPanel(this.panelRightContent,theZman.duration);
+        await this.goodSleep(2);
+        this.stopScrolls=true; 
+      
       }
     }
   }
 
 
+  stopScrolls:boolean;
+  subscription:Subscription;
+
+async scrollPanel(panel, duration) {
+
+return new Promise( (resolve)=>{
+
+  var fps = 1000;
+var minDelta = 0.5;
+
+let totalDistance=panel.nativeElement.scrollHeight - panel.nativeElement.scrollTop - panel.nativeElement.offsetHeight;
+let autoScrollSpeed=totalDistance/duration;
+console.log("SCROLL PANELL");
+console.log(totalDistance);
+console.log(duration);
+console.log(autoScrollSpeed);
+console.log(panel.nativeElement.scrollTop);
+console.log(panel.nativeElement.scrollHeight);
+console.log(panel.nativeElement.offsetHeight);
+
+let  currentDelta = 0;
+var currentTime, prevTime, timeDiff;
+let timerScroll = timer(0, 1000/fps);
+
+if (this.subscription && !this.subscription.closed)
+{
+  this.subscription.unsubscribe();
+}
+
+this.subscription=timerScroll.subscribe(()=>
+{
+  if (this.stopAll || this.stopScrolls || panel.nativeElement.scrollTop >= (panel.nativeElement.scrollHeight - panel.nativeElement.offsetHeight))
+    {
+      this.subscription.unsubscribe();
+      console.log("UNSUBSCRIBED");
+      resolve();
+    }
+    
+    currentTime = Date.now();
+    if (prevTime) {
+            timeDiff = (currentTime - prevTime)/1000;
+            currentDelta += autoScrollSpeed * timeDiff;
+            if (currentDelta  >= minDelta) {
+              let val=Math.round(panel.nativeElement.scrollTop+currentDelta);
+              currentDelta = (panel.nativeElement.scrollTop+currentDelta)-val; //saves the decimal we didn't add (or added more)
+              panel.nativeElement.scrollTop=val;
+               prevTime = currentTime;
+            }
+    } else {
+        prevTime = currentTime;
+    }
+    
+    
+  });
+
+
+});
+ 
+}
+
+
+
+
   async handlePanelsHanzahot() {
     let i = 0;
 
-    console.log("handlePanelsHanzahot");
-
-    let hanzahotList = this.dataP.theHanzahotList;
-
-    while (!this.stopAll) {
-      await this.goodSleep(0.5);
-    }
+    //console.log("handlePanelsHanzahot");
+     this.scrollHanzahot();
   }
 
 
-  async scrollPanel(panel) {
-    console.log(panel.nativeElement.scrollTop);
-    console.log(panel.nativeElement.scrollHeight - panel.nativeElement.offsetHeight);
+  hideHanzahot:boolean=false;
+  async scrollHanzahot() {
+    let panel=this.panelHanzaotContent;
+   
+    let scrollInit=panel.nativeElement.scrollLeft;
 
-    while (!this.stopAll && panel.nativeElement.scrollTop < (panel.nativeElement.scrollHeight - panel.nativeElement.offsetHeight)) {
+    while (!this.stopAll)
+    {
+      await this.goodSleep(this.dataP.theHanzahaSettings.duration);
+      //console.log(panel);
+     this.hideHanzahot=true;
       await this.goodSleep(0.01);
-      panel.nativeElement.scrollTop += 2;
-    }
+      panel.nativeElement.scrollLeft=scrollInit;
+      await this.goodSleep(0.01);
+      //console.log(panel);
+      this.hideHanzahot=false;
+      await this.goodSleep(0.01);
+      //console.log(panel);
+      while (!this.stopAll && panel.nativeElement.scrollLeft > 0) {
+      await this.goodSleep(0.00001);
+      panel.nativeElement.scrollLeft -= 3;
+   }
+}
 
   }
+
 
   setListOfTimesForZmanimP(list: Array<any>) {
     if (!list)
@@ -171,7 +247,7 @@ let firstTime=true;
       else {
         if (this.kzman) {
           let kdate: Date = new Date(this.kzman[zmanEntry.relation.name]);
-          console.log(kdate);
+          //console.log(kdate);
 
           if (zmanEntry.type == "לפני") {
             let mins:number=Number(kdate.getMinutes()) - Number(zmanEntry.value);
@@ -240,15 +316,15 @@ let firstTime=true;
 
 
 
-    //    console.log(kzman.getZmanimJson().Zmanim.SofZmanShmaGRA);
+    //    //console.log(kzman.getZmanimJson().Zmanim.SofZmanShmaGRA);
 
 
     this.currentParasha = "פרשת " + hdate.getSedra('h')[0];
     /*
-        console.log(this.currentParasha);
-        console.log(hdate.dafyomi('h'));
-        console.log(hdate.toString('h'));
-        console.log(hdate.tachanun_uf());
+        //console.log(this.currentParasha);
+        //console.log(hdate.dafyomi('h'));
+        //console.log(hdate.toString('h'));
+        //console.log(hdate.tachanun_uf());
     */
 
     this.currentHDateStr = this.hDays[gDate.getDay()] + "                   " + hdate.toString('h');
@@ -258,17 +334,17 @@ let firstTime=true;
 
     this.currentTimeStr = this.stringOfDate(gDate);
 
-    //console.log(this.currentTimeStr);
+    ////console.log(this.currentTimeStr);
   }
 
   stringOfDate(theDate: Date): string {
-    //console.log(theDate);
+    ////console.log(theDate);
     if (theDate)
       return this.add0Pref(theDate.getHours()) + ":" + this.add0Pref(theDate.getMinutes()) + ":" + this.add0Pref(theDate.getSeconds());
   }
 
   stringOfDateNoSec(theDate: Date): string {
-    //console.log(theDate);
+    ////console.log(theDate);
     if (theDate)
       return this.add0Pref(theDate.getHours()) + ":" + this.add0Pref(theDate.getMinutes());
   }

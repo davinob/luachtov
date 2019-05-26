@@ -1,16 +1,9 @@
   
-  <ion-content padding class="content global">
-
+  <ion-content padding class="content global" (click)="openMenu()">
+ 
         <div class="lineCont main">
             <ion-row>
-            <!--     <ion-col >
-                    <div class="hanza">
-                        <div class="pic"></div>
-                        <div class="hanzaText"> {{currentHanza1?.text}}</div>
 
-                    </div>
-
-                </ion-col> !-->
          
                 <ion-col >
             <div class="title">
@@ -32,13 +25,7 @@
                     <div class="line"></div>
             </div>
             </ion-col>
-          <!--  <ion-col >
-                    <div class="hanza">
-                            <div class="pic"></div>
-                            <div class="hanzaText"> {{currentHanza2?.text}}</div>
-    
-                        </div>
-            </ion-col> !-->
+  
         </ion-row>
 
         </div>
@@ -65,6 +52,15 @@
 
 
             </div>
+    </div>
+
+    
+    <div class="hanzaLine" #panelHanzahotContent>
+                <span class="hanzaha" *ngFor="let hanzaha of dataP.theHanzahotList">
+                     <span [hidden]="hideHanzahot" class="hanzahaIcon">{{hanzaha.type}}</span>
+                    <span [hidden]="hideHanzahot" class="hanzahaText">{{hanzaha.text}}</span>
+                 </span>
+           
     </div>
 
 

@@ -112,14 +112,22 @@
     {
         display: inline-block;
         overflow-y: hidden;
-        scroll-behavior: smooth;
         height: 90%;
         padding-left: 30px;
         padding-right: 30px;
    }
 
 
+   .hanzaLine{
+    overflow: hidden;
+    white-space: nowrap;
+   }
+
+ 
    
+   .hanzaha{
+    display: inline-block;
+   }
    
     .parasha{
         font-size:25px;

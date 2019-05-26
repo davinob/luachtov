@@ -68,7 +68,7 @@ theHanzahotList:Array<Hanzaha>=[];
 theHanzahaSettings={duration:10};
 
   constructor(public storage:Storage) {
-    console.log("DATA SERVICE");
+    //console.log("DATA SERVICE");
     this.init();
   }
 
