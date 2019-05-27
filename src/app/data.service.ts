@@ -64,13 +64,13 @@ theZmanimList=[
 
 
 theShiurimList=[
-{id:0,enabled:false,name:"מידע של היום", type:"meyda", duration:20,durationAfter:5},
-{id:1,enabled:false,name:"הילולות היום", type:"hiloulot",duration:10,durationAfter:5},
-{id:2,enabled:true,name:"הלכה יומית", type:"halaha",duration:30,durationAfter:5},
-{id:3,enabled:false,name:"זמני שיעורים חול", type:"dummy1",duration:10,durationAfter:5},
-{id:4,enabled:false,name:"זמני שיעורים שבת", type:"dummy2",duration:25,durationAfter:5},
-{id:5,enabled:false,name:"זמני היום ....", type:"dummy3",duration:10,durationAfter:5},
-{id:6,enabled:false,name:"..... זמני היום", type:"dummy4",duration:10,durationAfter:5}
+{id:0,enabled:false,name:"מידע של היום", type:"מידע", duration:20,durationAfter:5},
+{id:1,enabled:false,name:"הילולות היום", type:"הילולות",duration:10,durationAfter:5},
+{id:2,enabled:true,name:"הלכה יומית", type:"הלכה",duration:30,durationAfter:5},
+{id:3,enabled:false,name:"זמני שיעורים חול", type:"כלום",duration:10,durationAfter:5},
+{id:4,enabled:false,name:"זמני שיעורים שבת", type:"כלום",duration:25,durationAfter:5},
+{id:5,enabled:false,name:"זמני היום ....", type:"כלום",duration:10,durationAfter:5},
+{id:6,enabled:false,name:"..... זמני היום", type:"כלום",duration:10,durationAfter:5}
 ];
 
 
@@ -94,6 +94,7 @@ theHanzahaSettings={duration:10, durationAfter:5};
     await this.initFromStorage('theGeneralSettings');
     await this.initFromStorage('theHanzahaSettings');
     await this.initFromStorage('theHanzahotList');
+    await this.initFromStorage('theShiurimList');
     console.log(this.theHanzahaSettings);
     this.stillInInit.next(false);
    

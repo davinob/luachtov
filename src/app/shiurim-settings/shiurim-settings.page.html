@@ -1,8 +1,69 @@
-<ion-header>
+<ion-header  (click)="openMenu()">
   <ion-toolbar>
-    <ion-title>shiurim-settings</ion-title>
+     <ion-title>הגדרות שיעורים ומידע</ion-title>
   </ion-toolbar>
 </ion-header>
+
+<ion-content class="global" padding>
+
+
+
+  <div class="entryBlock" *ngFor="let shiurPerso of dataP.theShiurimList |slice :1 ; let i=index">
+
+
+    <ion-row>
+      <ion-col col-4>
+        <ion-item>
+        <ion-label class="namePanel">{{shiurPerso.type}}</ion-label>
+        <ion-checkbox slot="start" [(ngModel)]="shiurPerso.enabled" (ionChange)='saveInput("dummy",0)'></ion-checkbox>
+        </ion-item>
+      </ion-col>
+      <ion-col *ngIf="shiurPerso.enabled" col-3>
+        <ion-item>
+          <ion-label color="primary" stacked>שם</ion-label>
+          <ion-input type="text" [(ngModel)]="shiurPerso.name" (ionFocus)='editInput("shiurimPName",i,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[i]?.shiurimPName"  icon-only item-end clear (click)='cancelInput("shiurimPName",i)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[i]?.shiurimPName"  icon-only item-end clear (click)='saveInput("shiurimPName",i)'
+            [disabled]="shiurPerso.name==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col >
+      <ion-col *ngIf="shiurPerso.enabled" col-2>
+        <ion-item>
+          <ion-label color="primary" stacked>מספר שניות</ion-label>
+          <ion-input type="number" [(ngModel)]="shiurPerso.duration" (ionFocus)='editInput("shiurimPDuration",i,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[i]?.shiurimPDuration"  icon-only item-end clear (click)='cancelInput("shiurimPDuration",i)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[i]?.shiurimPDuration"  item-end clear (click)='saveInput("shiurimPDuration",i)'
+            [disabled]="shiurPerso.duration==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" stacked>מספר שניות אחרי</ion-label>
+          <ion-input type="number" [(ngModel)]="shiurPerso.durationAfter" (ionFocus)='editInput("shiurimPDurationAfter",i,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[i]?.shiurimPDurationAfter"  icon-only item-end clear (click)='cancelInput("shiurimPDurationAfter",i)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[i]?.shiurimPDurationAfter"  item-end clear (click)='saveInput("shiurimPDurationAfter",i)'
+            [disabled]="shiurPerso.durationAfter==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+
+  </div>
+
+
 
 <ion-content>
 

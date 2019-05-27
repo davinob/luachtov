@@ -428,14 +428,15 @@ subscriptionScroll=timerScroll.subscribe(()=>
       }
    let kzmanim = new KosherZmanim(zOptions);
    this.kzman = kzmanim.getZmanimJson().Zmanim;
-  
+  //zmanim of gDate (previous date even if after tzeit hakohavim)
    
-    let dateForH=new Date();
-   let zetHakohavim: Date = new Date(this.kzman["Tzais72Zmanis"]);
-   if (dateForH.getTime()>zetHakohavim.getTime())
+   
+   let zetHakohavim: Date = new Date(this.kzman["Tzais72Zmanis"]); 
+ 
+   if (gDate.getTime()>zetHakohavim.getTime())
    {
-    dateForH.setDate(dateForH.getDate()+1);
-    this.hDate=new Hebcal.HDate(dateForH);
+    gDate.setDate(gDate.getDate()+1);
+    this.hDate=new Hebcal.HDate(gDate);
 
      if (!this.isNewHDateAndInfoUpdated)
      {
@@ -445,7 +446,7 @@ subscriptionScroll=timerScroll.subscribe(()=>
    }
    else
    {
-    this.hDate = new Hebcal.HDate(dateForH);
+    this.hDate = new Hebcal.HDate(gDate);
      this.isNewHDateAndInfoUpdated=false;
    }
 
