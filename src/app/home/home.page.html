@@ -46,9 +46,20 @@
 
             </div>
             <div class="mipanel">
-                    <div class="panelContent">
-
+                <div class="panelContent">
+                    <div class="title titlePanel">
+                            {{currentShiur?.title}}
                     </div>
+                    <div #panelLeftContent class="mainContent">
+                      <div *ngIf="currentShiur?.type=='halaha'">
+                        <div class="halahaTitle">{{currentHalaha?.title}}</div>
+                        <div class="halahaContent" [innerHTML]="currentHalaha?.content" ></div>
+                        <div class="halahaFooter">מהאתר הלכה יומית מפסקי מרן רבינו עובדיה יוסף זצ"ל</div>
+                      
+                      </div>
+                    
+                    </div>
+                </div>
 
 
             </div>
@@ -57,8 +68,12 @@
     
     <div class="hanzaLine" #panelHanzahotContent>
                 <span class="hanzaha" *ngFor="let hanzaha of dataP.theHanzahotList">
-                     <span [hidden]="hideHanzahot" class="hanzahaIcon">{{hanzaha.type}}</span>
-                    <span [hidden]="hideHanzahot" class="hanzahaText">{{hanzaha.text}}</span>
+                     <span [hidden]="hideHanzahot" class="hanzahaIcon">
+                          <img *ngIf='hanzaha.type=="לעילוי נשמת"'  class="iconPic" src="assets/icon/candle.gif" />
+                          <img *ngIf='hanzaha.type=="לזכות"'  class="iconPic" src="assets/icon/pray.png" />
+                          <img *ngIf='hanzaha.type=="תודות"'  class="iconPic" src="assets/icon/bravo.png" />
+                        </span>
+                    <span [hidden]="hideHanzahot" class="hanzahaText" >{{hanzaha.text}}</span>
                  </span>
            
     </div>

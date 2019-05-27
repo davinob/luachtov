@@ -22,6 +22,18 @@
           <ion-icon class="green" name="checkmark"></ion-icon>
         </ion-button>
       </ion-item>
+      <ion-item>
+        <ion-label color="primary" stacked>מספר שניות אחרי</ion-label>
+        <ion-input type="number" [(ngModel)]="dataP.theHanzahaSettings.durationAfter" (ionFocus)='editInput("durationAfter",true)'></ion-input>
+
+        <ion-button *ngIf="allInputsShows?.durationAfter" icon-only item-end clear (click)='cancelInput("durationAfter","theHanzahaSettings")'>
+          <ion-icon class="red" name="redo"></ion-icon>
+        </ion-button>
+        <ion-button *ngIf="allInputsShows?.durationAfter" icon-only item-end clear (click)='saveInput("durationAfter","theHanzahaSettings")'
+          [disabled]="dataP.theHanzahaSettings?.durationAfter==''">
+          <ion-icon class="green" name="checkmark"></ion-icon>
+        </ion-button>
+      </ion-item>
     </ion-col>
   </ion-row>
 

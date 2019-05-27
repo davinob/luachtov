@@ -90,6 +90,27 @@
         display: inline-flex;
     }
 
+    .halahaTitle
+    {
+        font-size:25px;
+        width: 100%;
+        display: inline-flex;
+    }
+
+    .halahaContent
+    {
+        font-size:23px;
+        width: 100%;
+        display: inline-flex; 
+    }
+
+    .halahaFooter
+    {
+        font-size:15px;
+        width: 100%;
+        display: inline-flex;  
+    }
+
     .hourKey
     {
         text-align:right
@@ -127,6 +148,7 @@
    
    .hanzaha{
     display: inline-block;
+    margin-left: 35px;
    }
    
     .parasha{
@@ -144,3 +166,11 @@
         font-family: sans-serif;
         font-weight:bolder;
     }
+
+
+    .iconPic
+{
+  max-height: 30px;
+  width: auto;
+  margin-left: 3px;
+}

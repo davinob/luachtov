@@ -44,6 +44,18 @@
             <ion-icon class="green" name="checkmark"></ion-icon>
           </ion-button>
         </ion-item>
+        <ion-item>
+          <ion-label color="primary" stacked>מספר שניות אחרי</ion-label>
+          <ion-input type="number" [(ngModel)]="dataP.theZmanimList[0].durationAfter" (ionFocus)='editInput("zmanimGDurationAfter",0,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[0]?.zmanimGDurationAfter"  icon-only item-end clear (click)='cancelInput("zmanimGDurationAfter",0)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[0]?.zmanimGDurationAfter"  icon-only item-end clear (click)='saveInput("zmanimGDurationAfter",0)'
+            [disabled]="dataP.theZmanimList[0].durationAfter==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
       </ion-col>
     </ion-row>
 
@@ -95,6 +107,18 @@
           </ion-button>
           <ion-button *ngIf="allInputsShows[i]?.zmanimPDuration"  item-end clear (click)='saveInput("zmanimPDuration",i)'
             [disabled]="zmanPerso.duration==''">
+            <ion-icon class="green" name="checkmark"></ion-icon>
+          </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" stacked>מספר שניות אחרי</ion-label>
+          <ion-input type="number" [(ngModel)]="zmanPerso.durationAfter" (ionFocus)='editInput("zmanimPDurationAfter",i,true)'></ion-input>
+
+          <ion-button *ngIf="allInputsShows[i]?.zmanimPDurationAfter"  icon-only item-end clear (click)='cancelInput("zmanimPDurationAfter",i)'>
+            <ion-icon class="red" name="redo"></ion-icon>
+          </ion-button>
+          <ion-button *ngIf="allInputsShows[i]?.zmanimPDurationAfter"  item-end clear (click)='saveInput("zmanimPDurationAfter",i)'
+            [disabled]="zmanPerso.durationAfter==''">
             <ion-icon class="green" name="checkmark"></ion-icon>
           </ion-button>
         </ion-item>

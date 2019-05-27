@@ -9,6 +9,11 @@ import { DataService } from '../data.service';
 import { Observable, Subscription, timer } from 'rxjs';
 import { MenuController } from '@ionic/angular';
 
+
+
+import * as halahayomit from '../contents/halahayomit'; 
+
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,7 +22,7 @@ import { MenuController } from '@ionic/angular';
 export class HomePage {
 
 
-  
+  @ViewChild("panelLeftContent") panelLeftContent;
   @ViewChild("panelRightContent") panelRightContent;
   @ViewChild("panelHanzahotContent") panelHanzaotContent;
 
@@ -45,10 +50,7 @@ export class HomePage {
     
 
     this.dataP.stillInInit.subscribe(isInInit => {
-      if (isInInit) {
-        //console.log("WAITING FOR DATAP INIT");
-      }
-      else {
+      if (!isInInit) {
         this.initMe();
       }
     });
@@ -64,20 +66,60 @@ export class HomePage {
   }
 
   initMe() {
-    //console.log("INIT ME");
+    console.log("INIT ME");
 
 let firstTime=true;
     this.timerSub = this.timer.subscribe((val) => {
-      this.initElems();
+
+      this.setHDateAndKzmanInfos();
+
       if (firstTime)
-      {
-        this.handlePanelsZmanim();
+      { this.handlePanelsZmanim();
+        this.handlePanelsShiurim();
         this.handlePanelsHanzahot();
+        this.updateDailyInfoAfterDateChange();
       }
       firstTime=false;
+
+    
+
+
     });
 
-  
+   
+  }
+
+
+  currentHalaha;
+  hDates=[" ","א","ב","ג","ד","ה","ו","ז","ח","ט","י",
+          "י\"א","י\"ב","י\"ג","י\"ד","ט\"ו","ט\"ז","י\"ז","י\"ח","י\ט","כ",
+          "כ\"א","כ\"ב","כ\"ג","כ\"ד","כ\"ה","כ\"ו","כ\"ז","כ\"ח","כ\"ט","ל"
+          ];
+
+
+  updateDailyInfoAfterDateChange()
+  {
+    console.log("HILHOTYOMIOT TODAY");
+    let todayHMonth=this.hDate.getMonthName('h');
+    console.log("TODAY H MONTH:"+todayHMonth);
+    let todayHDate=this.hDate.getDate();
+    console.log("TODAY H DATE:"+todayHDate);
+    let todayHDateH=this.hDates[this.hDate.getDate()];
+    console.log("TODAY HH DATE:"+todayHDateH);  
+
+
+    this.currentHalaha=halahayomit.hilhotyomiot.
+                            filter((halaha)=>halaha.month==todayHMonth && halaha.date==todayHDateH)
+                            .pop();
+    if (this.currentHalaha)
+    {
+        console.log(this.currentHalaha.date);
+        console.log(this.currentHalaha.year);
+        console.log(this.currentHalaha.title);
+        console.log(this.currentHalaha.content);
+    }
+      console.log("AFTER HILHOTYOMIOT");
+    
   }
 
 
@@ -99,6 +141,41 @@ let firstTime=true;
     return new Promise(resolve => setTimeout(resolve, ms * 1000));
   } 
 
+
+
+
+  currentShiur;
+  async handlePanelsShiurim() {
+    let i = 0;
+
+    //console.log("handlePanelsZmanim");
+
+    let shiurimList = this.dataP.theShiurimList;
+    let subscriptionScroll:Subscription;
+
+    while (!this.stopAll) {
+      i = (i + 1) % shiurimList.length;
+      let theShiur = shiurimList[i];
+      if (theShiur.enabled) {
+        this.currentShiur=theShiur;
+        await this.goodSleep(0.2);
+      
+
+        if (subscriptionScroll && !subscriptionScroll.closed)
+        {
+        subscriptionScroll.unsubscribe();
+        }
+
+        await this.scrollPanel(this.panelLeftContent,theShiur.duration,subscriptionScroll);
+        await this.goodSleep(theShiur.durationAfter);
+   
+      
+      }
+    }
+  }
+
+
+
   zmanimTitle;
   listOfTimes;
 
@@ -108,7 +185,7 @@ let firstTime=true;
     //console.log("handlePanelsZmanim");
 
     let zmanimList = this.dataP.theZmanimList;
-
+    let subscriptionScroll:Subscription;
     while (!this.stopAll) {
       i = (i + 1) % zmanimList.length;
       let theZman = zmanimList[i];
@@ -126,20 +203,25 @@ let firstTime=true;
 
         //console.log("Waiting for scroll panel and duration of " + theZman.duration);
         await this.goodSleep(0.2);
-        this.stopScrolls=false;
-        await this.scrollPanel(this.panelRightContent,theZman.duration);
-        await this.goodSleep(2);
-        this.stopScrolls=true; 
+        
+        if (subscriptionScroll && !subscriptionScroll.closed)
+        {
+        subscriptionScroll.unsubscribe();
+        }
+        await this.scrollPanel(this.panelRightContent,theZman.duration,subscriptionScroll);
+        await this.goodSleep(theZman.durationAfter);
+       
       
       }
     }
   }
 
 
-  stopScrolls:boolean;
-  subscription:Subscription;
+  
+ 
+  subscriptionScrollHanza:Subscription;
 
-async scrollPanel(panel, duration) {
+async scrollPanel(panel, duration,subscriptionScroll) {
 
 return new Promise( (resolve)=>{
 
@@ -148,29 +230,19 @@ var minDelta = 0.5;
 
 let totalDistance=panel.nativeElement.scrollHeight - panel.nativeElement.scrollTop - panel.nativeElement.offsetHeight;
 let autoScrollSpeed=totalDistance/duration;
-console.log("SCROLL PANELL");
-console.log(totalDistance);
-console.log(duration);
-console.log(autoScrollSpeed);
-console.log(panel.nativeElement.scrollTop);
-console.log(panel.nativeElement.scrollHeight);
-console.log(panel.nativeElement.offsetHeight);
 
 let  currentDelta = 0;
 var currentTime, prevTime, timeDiff;
 let timerScroll = timer(0, 1000/fps);
 
-if (this.subscription && !this.subscription.closed)
-{
-  this.subscription.unsubscribe();
-}
 
-this.subscription=timerScroll.subscribe(()=>
+
+subscriptionScroll=timerScroll.subscribe(()=>
 {
-  if (this.stopAll || this.stopScrolls || panel.nativeElement.scrollTop >= (panel.nativeElement.scrollHeight - panel.nativeElement.offsetHeight))
+  if (this.stopAll || panel.nativeElement.scrollTop >= (panel.nativeElement.scrollHeight - panel.nativeElement.offsetHeight))
     {
-      this.subscription.unsubscribe();
-      console.log("UNSUBSCRIBED");
+      subscriptionScroll.unsubscribe();
+     // console.log("UNSUBSCRIBED");
       resolve();
     }
     
@@ -210,27 +282,75 @@ this.subscription=timerScroll.subscribe(()=>
   hideHanzahot:boolean=false;
   async scrollHanzahot() {
     let panel=this.panelHanzaotContent;
-   
     let scrollInit=panel.nativeElement.scrollLeft;
+   // console.log(panel);
+//    console.log("SCROLL INIT:"+scrollInit);
 
     while (!this.stopAll)
     {
-      await this.goodSleep(this.dataP.theHanzahaSettings.duration);
-      //console.log(panel);
-     this.hideHanzahot=true;
-      await this.goodSleep(0.01);
-      panel.nativeElement.scrollLeft=scrollInit;
-      await this.goodSleep(0.01);
-      //console.log(panel);
-      this.hideHanzahot=false;
-      await this.goodSleep(0.01);
-      //console.log(panel);
-      while (!this.stopAll && panel.nativeElement.scrollLeft > 0) {
-      await this.goodSleep(0.00001);
-      panel.nativeElement.scrollLeft -= 3;
-   }
-}
+        await this.scrollHorizontal(panel, scrollInit,this.dataP.theHanzahaSettings.duration);
+        await this.goodSleep(this.dataP.theHanzahaSettings.durationAfter);
+          //console.log(panel);
+          this.hideHanzahot=true;
+          await this.goodSleep(0.01);
+          panel.nativeElement.scrollLeft=scrollInit;
+          await this.goodSleep(0.1);
 
+         this.hideHanzahot=false;
+     
+        }
+
+  }
+
+  scrollHorizontal(panel, scrollInit,duration)
+  {
+ //   console.log("STARTING THE SCROLL");
+  //  console.log(scrollInit);
+    
+   
+    var fps = 1000;
+    var minDelta = 0.5;
+    let totalDistance=scrollInit;
+    let autoScrollSpeed=totalDistance/duration;
+
+    return new Promise( (resolve)=>
+    {
+    //  console.log("STARTING THE SCROLL in PROMISE");
+      let  currentDelta = 0;
+      var currentTime, prevTime, timeDiff;
+      let timerScroll = timer(0, 1000/fps);
+      
+      if (this.subscriptionScrollHanza && !this.subscriptionScrollHanza.closed)
+      {
+        this.subscriptionScrollHanza.unsubscribe();
+      }
+
+    this.subscriptionScrollHanza=timerScroll.subscribe(()=>
+    {
+      if (this.stopAll || panel.nativeElement.scrollLeft <= 0)
+        {
+          this.subscriptionScrollHanza.unsubscribe();
+          resolve();
+        }
+        
+        currentTime = Date.now();
+        if (prevTime) {
+                timeDiff = (currentTime - prevTime)/1000;
+                currentDelta += autoScrollSpeed * timeDiff;
+                if (currentDelta  >= minDelta) {
+                  let val=Math.round(currentDelta);
+                  currentDelta = (currentDelta)-val; //saves the decimal we didn't add (or added more)
+                  panel.nativeElement.scrollLeft-=val;
+                   prevTime = currentTime;
+                }
+        } else {
+            prevTime = currentTime;
+        }
+        
+        
+      });
+
+    });
   }
 
 
@@ -293,48 +413,55 @@ this.subscription=timerScroll.subscribe(()=>
     this.listOfTimes = newArr;
   }
 
+  isNewHDateAndInfoUpdated=false;
+  hDate;
 
-  initElems() {
-    let hdate = new Hebcal.HDate();
+  setHDateAndKzmanInfos() {
     let gDate = new Date();
-
-    hdate.setLocation(Number.parseFloat(this.dataP.theGeneralSettings.lat), Number.parseFloat(this.dataP.theGeneralSettings.lng));
-
-
     let zOptions = {
-      date: gDate,
-      timeZoneId: this.dataP.theGeneralSettings.zoneId,
-      locationName: "Netanya",
-      latitude: Number.parseFloat(this.dataP.theGeneralSettings.lat),
-      longitude: Number.parseFloat(this.dataP.theGeneralSettings.lng),
-      complexZmanim: true
-    }
+        date: gDate,
+        timeZoneId: this.dataP.theGeneralSettings.zoneId,
+        locationName: "Netanya",
+        latitude: Number.parseFloat(this.dataP.theGeneralSettings.lat),
+        longitude: Number.parseFloat(this.dataP.theGeneralSettings.lng),
+        complexZmanim: true
+      }
+   let kzmanim = new KosherZmanim(zOptions);
+   this.kzman = kzmanim.getZmanimJson().Zmanim;
+  
+   
+    let dateForH=new Date();
+   let zetHakohavim: Date = new Date(this.kzman["Tzais72Zmanis"]);
+   if (dateForH.getTime()>zetHakohavim.getTime())
+   {
+    dateForH.setDate(dateForH.getDate()+1);
+    this.hDate=new Hebcal.HDate(dateForH);
 
-    let kzmanim = new KosherZmanim(zOptions);
-    this.kzman = kzmanim.getZmanimJson().Zmanim;
+     if (!this.isNewHDateAndInfoUpdated)
+     {
+       this.updateDailyInfoAfterDateChange();
+       this.isNewHDateAndInfoUpdated=true;
+     }
+   }
+   else
+   {
+    this.hDate = new Hebcal.HDate(dateForH);
+     this.isNewHDateAndInfoUpdated=false;
+   }
 
-
-
-
-    //    //console.log(kzman.getZmanimJson().Zmanim.SofZmanShmaGRA);
-
-
-    this.currentParasha = "פרשת " + hdate.getSedra('h')[0];
-    /*
-        //console.log(this.currentParasha);
-        //console.log(hdate.dafyomi('h'));
-        //console.log(hdate.toString('h'));
-        //console.log(hdate.tachanun_uf());
-    */
-
-    this.currentHDateStr = this.hDays[gDate.getDay()] + "                   " + hdate.toString('h');
-
-
-
-
-    this.currentTimeStr = this.stringOfDate(gDate);
-
-    ////console.log(this.currentTimeStr);
+   
+  
+   this.hDate.setLocation(Number.parseFloat(this.dataP.theGeneralSettings.lat), Number.parseFloat(this.dataP.theGeneralSettings.lng));
+   this.currentParasha = "פרשת " + this.hDate.getSedra('h')[0];
+ 
+   /*
+          //console.log(this.currentParasha);
+          //console.log(hdate.dafyomi('h'));
+          //console.log(hdate.toString('h'));
+          //console.log(hdate.tachanun_uf());
+      */
+      this.currentHDateStr = this.hDays[gDate.getDay()] + " " + this.hDate.toString('h');
+      this.currentTimeStr = this.stringOfDate(new Date());
   }
 
   stringOfDate(theDate: Date): string {

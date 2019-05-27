@@ -48,6 +48,7 @@ async cancelInput(name:string,keyFromDataP:string)
 saveToStorage()
 {
   this.storage.set("theHanzahotList",this.dataP["theHanzahotList"]);
+  this.storage.set("theHanzahaSettings",this.dataP["theHanzahaSettings"]);
 }
 
 
