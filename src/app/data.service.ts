@@ -53,31 +53,31 @@ stillInInit:BehaviorSubject <boolean>=new BehaviorSubject (true);
   {name:"TzaisGeonim7Point083Degrees",description:"צאת הכוכבים ר\"ת",description0:"צאת הכוכבים ר\"ת",isChecked:true}];
 
 theZmanimList=[
-{id:0,enabled:true,name:"זמני היום",duration:50,durationAfter:5,list:this.autoZmanim},
-{id:1,enabled:false,name:"זמני תפילות חול",duration:10,durationAfter:5,list:[]},
-{id:2,enabled:false,name:"זמני תפילות שבת",duration:10,durationAfter:5,list:[]},
-{id:3,enabled:false,name:"זמני שיעורים חול",duration:10,durationAfter:5,list:[]},
-{id:4,enabled:false,name:"זמני שיעורים שבת",duration:25,durationAfter:5,list:[]},
-{id:5,enabled:false,name:"זמני היום ....",duration:10,durationAfter:5,list:[]},
-{id:6,enabled:false,name:"..... זמני היום",duration:10,durationAfter:5,list:[]}
+{id:0,enabled:true,name:"זמני היום",scrollSpeed:20,durationAfter:5,list:this.autoZmanim},
+{id:1,enabled:false,name:"זמני תפילות חול",scrollSpeed:10,durationAfter:5,list:[]},
+{id:2,enabled:false,name:"זמני תפילות שבת",scrollSpeed:10,durationAfter:5,list:[]},
+{id:3,enabled:false,name:"זמני שיעורים חול",scrollSpeed:10,durationAfter:5,list:[]},
+{id:4,enabled:false,name:"זמני שיעורים שבת",scrollSpeed:25,durationAfter:5,list:[]},
+{id:5,enabled:false,name:"זמני היום ....",scrollSpeed:10,durationAfter:5,list:[]},
+{id:6,enabled:false,name:"..... זמני היום",scrollSpeed:10,durationAfter:5,list:[]}
 ];
 
 
 theShiurimList=[
-{id:0,enabled:false,name:"מידע של היום", type:"מידע", duration:20,durationAfter:5},
-{id:1,enabled:false,name:"הילולות היום", type:"הילולות",duration:10,durationAfter:5},
-{id:2,enabled:true,name:"הלכה יומית", type:"הלכה",duration:30,durationAfter:5},
-{id:3,enabled:false,name:"זמני שיעורים חול", type:"כלום",duration:10,durationAfter:5},
-{id:4,enabled:false,name:"זמני שיעורים שבת", type:"כלום",duration:25,durationAfter:5},
-{id:5,enabled:false,name:"זמני היום ....", type:"כלום",duration:10,durationAfter:5},
-{id:6,enabled:false,name:"..... זמני היום", type:"כלום",duration:10,durationAfter:5}
+{id:0,enabled:false,name:"מידע של היום", type:"מידע", scrollSpeed:5,durationAfter:5},
+{id:1,enabled:false,name:"הילולת היום", type:"הילולות",scrollSpeed:5,durationAfter:5},
+{id:2,enabled:true,name:"הלכה יומית", type:"הלכה",scrollSpeed:5,durationAfter:5},
+{id:3,enabled:false,name:"זמני שיעורים חול", type:"כלום",scrollSpeed:5,durationAfter:5},
+{id:4,enabled:false,name:"זמני שיעורים שבת", type:"כלום",scrollSpeed:5,durationAfter:5},
+{id:5,enabled:false,name:"זמני היום ....", type:"כלום",scrollSpeed:5,durationAfter:5},
+{id:6,enabled:false,name:"..... זמני היום", type:"כלום",scrollSpeed:5,durationAfter:5}
 ];
 
 
 theGeneralSettings={lat:"31.777960", lng:"35.235980", zoneId:"Asia/Jerusalem"};
 
 theHanzahotList:Array<Hanzaha>=[];
-theHanzahaSettings={duration:10, durationAfter:5};
+theHanzahaSettings={scrollSpeed:10, durationAfter:5};
 
   constructor(public storage:Storage) {
     //console.log("DATA SERVICE");

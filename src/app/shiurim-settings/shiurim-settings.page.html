@@ -34,14 +34,14 @@
       </ion-col >
       <ion-col *ngIf="shiurPerso.enabled" col-2>
         <ion-item>
-          <ion-label color="primary" stacked>מספר שניות</ion-label>
-          <ion-input type="number" [(ngModel)]="shiurPerso.duration" (ionFocus)='editInput("shiurimPDuration",i,true)'></ion-input>
+          <ion-label color="primary" stacked>מהירות</ion-label>
+          <ion-input type="number" [(ngModel)]="shiurPerso.scrollSpeed" (ionFocus)='editInput("shiurimPscrollSpeed",i,true)'></ion-input>
 
-          <ion-button *ngIf="allInputsShows[i]?.shiurimPDuration"  icon-only item-end clear (click)='cancelInput("shiurimPDuration",i)'>
+          <ion-button *ngIf="allInputsShows[i]?.shiurimPscrollSpeed"  icon-only item-end clear (click)='cancelInput("shiurimPscrollSpeed",i)'>
             <ion-icon class="red" name="redo"></ion-icon>
           </ion-button>
-          <ion-button *ngIf="allInputsShows[i]?.shiurimPDuration"  item-end clear (click)='saveInput("shiurimPDuration",i)'
-            [disabled]="shiurPerso.duration==''">
+          <ion-button *ngIf="allInputsShows[i]?.shiurimPscrollSpeed"  item-end clear (click)='saveInput("shiurimPscrollSpeed",i)'
+            [disabled]="shiurPerso.scrollSpeed==''">
             <ion-icon class="green" name="checkmark"></ion-icon>
           </ion-button>
         </ion-item>

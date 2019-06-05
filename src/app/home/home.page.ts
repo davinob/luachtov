@@ -12,6 +12,7 @@ import { MenuController } from '@ionic/angular';
 
 
 import * as halahayomit from '../contents/halahayomit'; 
+import * as hilulayomit from '../contents/hilulayomit'; 
 
 
 @Component({
@@ -74,10 +75,12 @@ let firstTime=true;
       this.setHDateAndKzmanInfos();
 
       if (firstTime)
-      { this.handlePanelsZmanim();
+      { 
+        this.updateDailyInfoAfterDateChange();
+        this.handlePanelsZmanim();
         this.handlePanelsShiurim();
         this.handlePanelsHanzahot();
-        this.updateDailyInfoAfterDateChange();
+       
       }
       firstTime=false;
 
@@ -91,35 +94,76 @@ let firstTime=true;
 
 
   currentHalaha;
-  hDates=[" ","א","ב","ג","ד","ה","ו","ז","ח","ט","י",
-          "י\"א","י\"ב","י\"ג","י\"ד","ט\"ו","ט\"ז","י\"ז","י\"ח","י\ט","כ",
-          "כ\"א","כ\"ב","כ\"ג","כ\"ד","כ\"ה","כ\"ו","כ\"ז","כ\"ח","כ\"ט","ל"
+  hDates=[" ","א\'","ב\'","ג\'","ד\'","ה\'","ו\'","ז\'","ח\'","ט\'","י\'",
+          "י\"א","י\"ב","י\"ג","י\"ד","ט\"ו","ט\"ז","י\"ז","י\"ח","י\"ט","כ\'",
+          "כ\"א","כ\"ב","כ\"ג","כ\"ד","כ\"ה","כ\"ו","כ\"ז","כ\"ח","כ\"ט","ל\'"
           ];
 
+  currentHilula;
+  hDatesNoGersh=[" ","א","ב","ג","ד","ה","ו","ז","ח","ט","י",
+          "יא","יב","יג","יד","טו","טז","יז","יח","יט","כ",
+          "כא","כב","כג","כד","כה","כו","כז","כח","כט","ל"
+          ];
+
+
+          todayHMonthForHalahaAndHilula;
+          todayHDate;
+          todayHDateH;
+          todayHDateNoGersh;
 
   updateDailyInfoAfterDateChange()
   {
     console.log("HILHOTYOMIOT TODAY");
-    let todayHMonth=this.hDate.getMonthName('h');
-    console.log("TODAY H MONTH:"+todayHMonth);
-    let todayHDate=this.hDate.getDate();
-    console.log("TODAY H DATE:"+todayHDate);
-    let todayHDateH=this.hDates[this.hDate.getDate()];
-    console.log("TODAY HH DATE:"+todayHDateH);  
+    this.todayHMonthForHalahaAndHilula=this.hDate.getMonthName('h');
+
+    
+    if (this.todayHMonthForHalahaAndHilula.startsWith("אדר"))
+    {
+      this.todayHMonthForHalahaAndHilula="אדר"
+    }
+    console.log("TODAY H MONTH:"+this.todayHMonthForHalahaAndHilula);
+    this.todayHDate=this.hDate.getDate();
+    console.log("TODAY H DATE:"+this.todayHDate);
+    this.todayHDateH=this.hDates[this.hDate.getDate()];
+    console.log("TODAY HH DATE:"+this.todayHDateH);  
+
+    this.todayHDateNoGersh=this.hDatesNoGersh[this.hDate.getDate()];
+    console.log("TODAY HH DATE:"+this.todayHDateH);  
 
 
     this.currentHalaha=halahayomit.hilhotyomiot.
-                            filter((halaha)=>halaha.month==todayHMonth && halaha.date==todayHDateH)
+                            filter((halaha)=>halaha.month==this.todayHMonthForHalahaAndHilula && halaha.date==this.todayHDateH)
                             .pop();
     if (this.currentHalaha)
     {
         console.log(this.currentHalaha.date);
         console.log(this.currentHalaha.year);
         console.log(this.currentHalaha.title);
-        console.log(this.currentHalaha.content);
+       // console.log(this.currentHalaha.content);
     }
       console.log("AFTER HILHOTYOMIOT");
     
+  }
+
+  setCurrentHilula()
+  {
+    let todayPossibleHilulot:Array<any>=hilulayomit.hilulotyomiot.
+    filter((hilula)=>hilula.month==this.todayHMonthForHalahaAndHilula && hilula.date==this.todayHDateNoGersh);
+    
+    let randomIndex=Math.round(Math.random()*(todayPossibleHilulot.length-1));
+    
+    console.log("num of hiloulot for today:"+todayPossibleHilulot.length);
+    console.log(randomIndex);
+    this.currentHilula= todayPossibleHilulot.filter((val,index)=> index==randomIndex)
+    .pop();
+
+if (this.currentHilula)
+{
+console.log(this.currentHilula.rav);
+console.log(this.currentHilula.description);
+
+}
+console.log("AFTER HILULOTYOMIOT");
   }
 
 
@@ -158,6 +202,12 @@ let firstTime=true;
       let theShiur = shiurimList[i];
       if (theShiur.enabled) {
         this.currentShiur=theShiur;
+
+        if (this.currentShiur.type=="הילולות")
+        {
+          this.setCurrentHilula(); 
+        }
+
         await this.goodSleep(0.2);
       
 
@@ -166,7 +216,7 @@ let firstTime=true;
         subscriptionScroll.unsubscribe();
         }
 
-        await this.scrollPanel(this.panelLeftContent,theShiur.duration,subscriptionScroll);
+        await this.scrollPanel(this.panelLeftContent,theShiur.scrollSpeed,subscriptionScroll);
         await this.goodSleep(theShiur.durationAfter);
    
       
@@ -208,7 +258,7 @@ let firstTime=true;
         {
         subscriptionScroll.unsubscribe();
         }
-        await this.scrollPanel(this.panelRightContent,theZman.duration,subscriptionScroll);
+        await this.scrollPanel(this.panelRightContent,theZman.scrollSpeed,subscriptionScroll);
         await this.goodSleep(theZman.durationAfter);
        
       
@@ -221,15 +271,14 @@ let firstTime=true;
  
   subscriptionScrollHanza:Subscription;
 
-async scrollPanel(panel, duration,subscriptionScroll) {
+async scrollPanel(panel, autoScrollSpeed,subscriptionScroll) {
 
 return new Promise( (resolve)=>{
 
   var fps = 1000;
 var minDelta = 0.5;
 
-let totalDistance=panel.nativeElement.scrollHeight - panel.nativeElement.scrollTop - panel.nativeElement.offsetHeight;
-let autoScrollSpeed=totalDistance/duration;
+console.log("SPEED for PANEL "+ panel+ ":"+autoScrollSpeed);
 
 let  currentDelta = 0;
 var currentTime, prevTime, timeDiff;
@@ -288,7 +337,7 @@ subscriptionScroll=timerScroll.subscribe(()=>
 
     while (!this.stopAll)
     {
-        await this.scrollHorizontal(panel, scrollInit,this.dataP.theHanzahaSettings.duration);
+        await this.scrollHorizontal(panel, this.dataP.theHanzahaSettings.scrollSpeed);
         await this.goodSleep(this.dataP.theHanzahaSettings.durationAfter);
           //console.log(panel);
           this.hideHanzahot=true;
@@ -302,7 +351,7 @@ subscriptionScroll=timerScroll.subscribe(()=>
 
   }
 
-  scrollHorizontal(panel, scrollInit,duration)
+  scrollHorizontal(panel, autoScrollSpeed)
   {
  //   console.log("STARTING THE SCROLL");
   //  console.log(scrollInit);
@@ -310,9 +359,7 @@ subscriptionScroll=timerScroll.subscribe(()=>
    
     var fps = 1000;
     var minDelta = 0.5;
-    let totalDistance=scrollInit;
-    let autoScrollSpeed=totalDistance/duration;
-
+    
     return new Promise( (resolve)=>
     {
     //  console.log("STARTING THE SCROLL in PROMISE");
@@ -448,6 +495,7 @@ subscriptionScroll=timerScroll.subscribe(()=>
    {
     this.hDate = new Hebcal.HDate(gDate);
      this.isNewHDateAndInfoUpdated=false;
+
    }
 
    

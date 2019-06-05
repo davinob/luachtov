@@ -33,14 +33,14 @@
       </ion-col>
       <ion-col *ngIf="dataP.theZmanimList[0].enabled" col-2>
         <ion-item>
-          <ion-label color="primary" stacked>מספר שניות</ion-label>
-          <ion-input type="number" [(ngModel)]="dataP.theZmanimList[0].duration" (ionFocus)='editInput("zmanimGDuration",0,true)'></ion-input>
+          <ion-label color="primary" stacked>מהירות</ion-label>
+          <ion-input type="number" [(ngModel)]="dataP.theZmanimList[0].scrollSpeed" (ionFocus)='editInput("zmanimGscrollSpeed",0,true)'></ion-input>
 
-          <ion-button *ngIf="allInputsShows[0]?.zmanimGDuration"  icon-only item-end clear (click)='cancelInput("zmanimGDuration",0)'>
+          <ion-button *ngIf="allInputsShows[0]?.zmanimGscrollSpeed"  icon-only item-end clear (click)='cancelInput("zmanimGscrollSpeed",0)'>
             <ion-icon class="red" name="redo"></ion-icon>
           </ion-button>
-          <ion-button *ngIf="allInputsShows[0]?.zmanimGDuration"  icon-only item-end clear (click)='saveInput("zmanimGDuration",0)'
-            [disabled]="dataP.theZmanimList[0].duration==''">
+          <ion-button *ngIf="allInputsShows[0]?.zmanimGscrollSpeed"  icon-only item-end clear (click)='saveInput("zmanimGscrollSpeed",0)'
+            [disabled]="dataP.theZmanimList[0].scrollSpeed==''">
             <ion-icon class="green" name="checkmark"></ion-icon>
           </ion-button>
         </ion-item>
@@ -99,14 +99,14 @@
       </ion-col >
       <ion-col *ngIf="zmanPerso.enabled" col-2>
         <ion-item>
-          <ion-label color="primary" stacked>מספר שניות</ion-label>
-          <ion-input type="number" [(ngModel)]="zmanPerso.duration" (ionFocus)='editInput("zmanimPDuration",i,true)'></ion-input>
+          <ion-label color="primary" stacked>מהירות</ion-label>
+          <ion-input type="number" [(ngModel)]="zmanPerso.scrollSpeed" (ionFocus)='editInput("zmanimPscrollSpeed",i,true)'></ion-input>
 
-          <ion-button *ngIf="allInputsShows[i]?.zmanimPDuration"  icon-only item-end clear (click)='cancelInput("zmanimPDuration",i)'>
+          <ion-button *ngIf="allInputsShows[i]?.zmanimPscrollSpeed"  icon-only item-end clear (click)='cancelInput("zmanimPscrollSpeed",i)'>
             <ion-icon class="red" name="redo"></ion-icon>
           </ion-button>
-          <ion-button *ngIf="allInputsShows[i]?.zmanimPDuration"  item-end clear (click)='saveInput("zmanimPDuration",i)'
-            [disabled]="zmanPerso.duration==''">
+          <ion-button *ngIf="allInputsShows[i]?.zmanimPscrollSpeed"  item-end clear (click)='saveInput("zmanimPscrollSpeed",i)'
+            [disabled]="zmanPerso.scrollSpeed==''">
             <ion-icon class="green" name="checkmark"></ion-icon>
           </ion-button>
         </ion-item>
