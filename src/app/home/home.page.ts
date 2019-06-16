@@ -13,6 +13,7 @@ import { MenuController } from '@ionic/angular';
 
 import * as halahayomit from '../contents/halahayomit'; 
 import * as hilulayomit from '../contents/hilulayomit'; 
+import * as omer from '../contents/omer'; 
 
 
 @Component({
@@ -70,8 +71,10 @@ export class HomePage {
     console.log("INIT ME");
 
 let firstTime=true;
+//this.gDate = new Date(); //FOR TESTS!!!!!
     this.timerSub = this.timer.subscribe((val) => {
 
+     
       this.setHDateAndKzmanInfos();
 
       if (firstTime)
@@ -110,6 +113,46 @@ let firstTime=true;
           todayHDate;
           todayHDateH;
           todayHDateNoGersh;
+  
+ currentMeda={
+  omer:"",
+  tahanun:"",
+  dafYomi:"",
+  moridHatal:"",
+  barhenu:""
+ };
+
+
+ avanceDate()
+ {
+  this.gDate.setDate(this.gDate.getDate()+1);
+  this.setHDateAndKzmanInfos();
+  this.updateDailyInfoAfterDateChange();
+ }
+
+ reculeDate()
+ {
+  this.gDate.setDate(this.gDate.getDate()-1);
+  this.setHDateAndKzmanInfos();
+  this.updateDailyInfoAfterDateChange();
+ }
+
+
+
+ isDateAfterOrEqual(date1, date2):boolean
+ {
+   return date1.month>date2.month || (date1.month==date2.month && date1.day>=date2.day);
+ }
+
+ isDateBefore(date1, date2):boolean
+ {
+   return date1.month<date2.month || (date1.month==date2.month && date1.day<date2.day);
+ }
+
+ isEqual(date1, date2):boolean
+ {
+   return date1.month==date2.month && date1.day==date2.day;
+ }
 
   updateDailyInfoAfterDateChange()
   {
@@ -121,14 +164,14 @@ let firstTime=true;
     {
       this.todayHMonthForHalahaAndHilula="אדר"
     }
-    console.log("TODAY H MONTH:"+this.todayHMonthForHalahaAndHilula);
+   // console.log("TODAY H MONTH:"+this.todayHMonthForHalahaAndHilula);
     this.todayHDate=this.hDate.getDate();
-    console.log("TODAY H DATE:"+this.todayHDate);
+   // console.log("TODAY H DATE:"+this.todayHDate);
     this.todayHDateH=this.hDates[this.hDate.getDate()];
-    console.log("TODAY HH DATE:"+this.todayHDateH);  
+   // console.log("TODAY HH DATE:"+this.todayHDateH);  
 
     this.todayHDateNoGersh=this.hDatesNoGersh[this.hDate.getDate()];
-    console.log("TODAY HH DATE:"+this.todayHDateH);  
+   // console.log("TODAY HH DATE:"+this.todayHDateH);  
 
 
     this.currentHalaha=halahayomit.hilhotyomiot.
@@ -136,12 +179,196 @@ let firstTime=true;
                             .pop();
     if (this.currentHalaha)
     {
-        console.log(this.currentHalaha.date);
-        console.log(this.currentHalaha.year);
-        console.log(this.currentHalaha.title);
+     //   console.log(this.currentHalaha.date);
+     //   console.log(this.currentHalaha.year);
+     //   console.log(this.currentHalaha.title);
        // console.log(this.currentHalaha.content);
     }
-      console.log("AFTER HILHOTYOMIOT");
+   //   console.log("AFTER HILHOTYOMIOT");
+
+
+   
+
+
+
+      if (this.dataP.theGeneralSettings.eda=="sef")
+      {
+        if (this.hDate.omer()>0)
+          this.currentMeda.omer=omer.omerSef[this.hDate.omer()-1] ;
+      }
+      else
+      {
+
+        if (this.hDate.omer()>0)
+          this.currentMeda.omer=omer.omerAshk[this.hDate.omer()-1] ;
+      }
+
+      console.log(this.currentMeda.omer);
+      console.log(this.hDate.omer());
+
+
+      let dateOfBarehenu={day:15,month:1};
+      console.log(dateOfBarehenu);
+      let dateOfMashiv={day:22,month:7};
+      console.log(dateOfMashiv);
+      let dateOfBarehAlenu={day:7,month: 8};
+      console.log(dateOfBarehAlenu);
+      
+      let calcHDate={day:this.hDate.getDate(), month:this.hDate.getMonth()};
+      console.log(calcHDate);
+     
+      if (this.isDateAfterOrEqual(calcHDate,dateOfBarehAlenu)||this.isDateBefore(calcHDate,dateOfBarehenu))
+      {
+        this.currentMeda.moridHatal="משיב הרוח";
+       
+        if (this.dataP.theGeneralSettings.eda=="sef")
+       {
+        this.currentMeda.barhenu="ברך עלינו";
+       }
+       else
+       {
+        this.currentMeda.barhenu="ותן טל ומטר לברכה";
+       }
+
+       }
+       else
+       {
+        let zetHakohavim: Date = new Date(this.kzman["Tzais72Zmanis"]); 
+        let realGDate=this.todayDate();
+
+        if (this.isEqual(calcHDate,dateOfBarehenu))
+        {
+
+          if (realGDate.getTime()>zetHakohavim.getTime())//we're only in the night, we don't want to set Morid Hatal yet
+          {
+            this.currentMeda.moridHatal="משיב הרוח";
+            if (this.dataP.theGeneralSettings.eda=="sef")
+            {
+             this.currentMeda.barhenu="ברך עלינו";
+            }
+            else
+            {
+             this.currentMeda.barhenu="ותן טל ומטר לברכה";
+            }
+
+          }
+          else
+          {
+            this.currentMeda.moridHatal="מוריד הטל";
+
+            if (this.dataP.theGeneralSettings.eda=="sef")
+              {
+              this.currentMeda.barhenu="ברכינו";
+              }
+              else
+              {
+              this.currentMeda.barhenu="ותן ברכה";
+              }
+          }
+
+        }
+        else
+        if (this.isEqual(calcHDate,dateOfMashiv))
+        {
+          console.log("ON MASHIV DAY");
+          console.log(realGDate);
+          console.log(zetHakohavim);
+          if (realGDate.getTime()>zetHakohavim.getTime()) //we're only in the night, we don't want to set Mashiv yet 
+          {
+            this.currentMeda.moridHatal="מוריד הטל";
+
+            if (this.dataP.theGeneralSettings.eda=="sef")
+              {
+              this.currentMeda.barhenu="ברכינו";
+              }
+              else
+              {
+              this.currentMeda.barhenu="ותן ברכה";
+              }
+
+          }
+          else
+          {
+            this.currentMeda.moridHatal="משיב הרוח";
+            if (this.dataP.theGeneralSettings.eda=="sef")
+            {
+             this.currentMeda.barhenu="ברכינו";
+            }
+            else
+            {
+             this.currentMeda.barhenu="ותן ברכה";
+            }
+          }
+      
+        }
+        else
+        {
+
+        if (this.dataP.theGeneralSettings.eda=="sef")
+        {
+         this.currentMeda.barhenu="ברכינו";
+        }
+        else
+        {
+         this.currentMeda.barhenu="ותן ברכה";
+        }
+
+
+          if (this.isDateBefore(calcHDate,dateOfMashiv))
+        {
+          this.currentMeda.moridHatal="מוריד הטל";
+        }
+        else
+        {
+          this.currentMeda.moridHatal="משיב הרוח";
+        }
+      }
+    } 
+   //   currentMeda.moridHatal=
+    //  currentMeda.barhenu
+     
+    let taha=true;
+    console.log(this.hDate.tachanun_uf());
+     if (this.isAfterMinha)
+     {
+       //check tomorrow:
+       let tmpDate=this.todayDate();
+       tmpDate.setDate(tmpDate.getDate()+1);
+       let tmpHDate=new Hebcal.HDate(tmpDate);
+     
+      if (this.hDate.tachanun_uf().all_congs && tmpHDate.tachanun_uf().all_congs)
+        taha=this.hDate.tachanun_uf().mincha;
+      else
+       taha=this.hDate.tachanun_uf().all_congs && tmpHDate.tachanun_uf().all_congs;
+
+      }
+     else
+     {
+       if (this.hDate.tachanun_uf().all_congs)
+        taha=this.hDate.tachanun_uf().shacharit;
+      else
+       taha=this.hDate.tachanun_uf().all_congs;
+   
+      }
+
+     if (taha)
+     {
+      this.currentMeda.tahanun="אומרים תחנון";
+     }
+    else
+    {
+      this.currentMeda.tahanun="אין אומרים תחנון";
+    }
+
+     this.currentMeda.dafYomi=this.hDate.dafyomi('h');
+    
+
+    //console.log(this.currentParasha);
+      //console.log(hdate.dafyomi('h'));
+      //console.log(hdate.toString('h'));
+      //console.log(hdate.tachanun_uf());
+
+    
     
   }
 
@@ -206,6 +433,11 @@ console.log("AFTER HILULOTYOMIOT");
         if (this.currentShiur.type=="הילולות")
         {
           this.setCurrentHilula(); 
+        }
+
+        if (this.currentShiur.type=="הלכה" && !this.currentHalaha)
+        {
+          continue;
         }
 
         await this.goodSleep(0.2);
@@ -278,7 +510,7 @@ return new Promise( (resolve)=>{
   var fps = 1000;
 var minDelta = 0.5;
 
-console.log("SPEED for PANEL "+ panel+ ":"+autoScrollSpeed);
+//console.log("SPEED for PANEL "+ panel+ ":"+autoScrollSpeed);
 
 let  currentDelta = 0;
 var currentTime, prevTime, timeDiff;
@@ -461,12 +693,22 @@ subscriptionScroll=timerScroll.subscribe(()=>
   }
 
   isNewHDateAndInfoUpdated=false;
+  isAfterMinhaAndInfoUpdated=false;
+  isAfterMinha=false;
+  
   hDate;
+  gDate;
+
+  todayDate():Date
+  {
+    return new Date();
+  }
 
   setHDateAndKzmanInfos() {
-    let gDate = new Date();
+    this.gDate = this.todayDate() ;
+
     let zOptions = {
-        date: gDate,
+        date: this.gDate,
         timeZoneId: this.dataP.theGeneralSettings.zoneId,
         locationName: "Netanya",
         latitude: Number.parseFloat(this.dataP.theGeneralSettings.lat),
@@ -480,10 +722,10 @@ subscriptionScroll=timerScroll.subscribe(()=>
    
    let zetHakohavim: Date = new Date(this.kzman["Tzais72Zmanis"]); 
  
-   if (gDate.getTime()>zetHakohavim.getTime())
+   if (this.gDate.getTime()>zetHakohavim.getTime())
    {
-    gDate.setDate(gDate.getDate()+1);
-    this.hDate=new Hebcal.HDate(gDate);
+    this.gDate.setDate(this.gDate.getDate()+1);
+    this.hDate=new Hebcal.HDate(this.gDate);
 
      if (!this.isNewHDateAndInfoUpdated)
      {
@@ -493,9 +735,25 @@ subscriptionScroll=timerScroll.subscribe(()=>
    }
    else
    {
-    this.hDate = new Hebcal.HDate(gDate);
+    this.hDate = new Hebcal.HDate(this.gDate);
      this.isNewHDateAndInfoUpdated=false;
+   }
 
+   let minhaGedola: Date = new Date(this.kzman["MinchaGedola"]); 
+ 
+   this.isAfterMinha=(this.gDate.getTime()>minhaGedola.getTime());
+
+   if (this.isAfterMinha)
+   {
+     if (!this.isAfterMinhaAndInfoUpdated)
+     {
+       this.updateDailyInfoAfterDateChange();
+       this.isAfterMinhaAndInfoUpdated=true;
+     }
+   }
+   else
+   {
+     this.isAfterMinhaAndInfoUpdated=false;
    }
 
    
@@ -509,8 +767,8 @@ subscriptionScroll=timerScroll.subscribe(()=>
           //console.log(hdate.toString('h'));
           //console.log(hdate.tachanun_uf());
       */
-      this.currentHDateStr = this.hDays[gDate.getDay()] + " " + this.hDate.toString('h');
-      this.currentTimeStr = this.stringOfDate(new Date());
+      this.currentHDateStr = this.hDays[this.gDate.getDay()] + " " + this.hDate.toString('h');
+      this.currentTimeStr = this.stringOfDate(this.todayDate());
   }
 
   stringOfDate(theDate: Date): string {

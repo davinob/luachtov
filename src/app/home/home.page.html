@@ -1,6 +1,6 @@
   
   <ion-content padding class="content global" (click)="openMenu()">
- 
+
         <div class="lineCont main">
             <ion-row>
 
@@ -57,11 +57,20 @@
                         <div class="halahaFooter"> (מקור: אתר הלכה יומית מפסקי מרן רבינו עובדיה יוסף זצ"ל) </div>
                       
                       </div>
+
                       <div *ngIf="currentShiur?.type=='הילולות'">
                         <div class="halahaTitle">{{currentHilula?.rav}}</div>
                         <div class="halahaContent" [innerHTML]="currentHilula?.description" ></div>
                         <div class="halahaFooter"> (מקור: www.breslev.co.il) </div>
                       
+                      </div>
+
+                      <div *ngIf="currentShiur?.type=='מידע'">
+                        <div class="medaContent">{{currentMeda?.moridHatal}}</div>
+                        <div class="medaContent">{{currentMeda?.barhenu}}</div>
+                        <div class="medaContent">{{currentMeda?.tahanun}}</div>
+                        <div class="medaContent">{{currentMeda?.dafYomi}}</div>
+                        <div class="medaContent">{{currentMeda?.omer}}</div>
                       </div>
                     
                     </div>

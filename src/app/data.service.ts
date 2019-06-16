@@ -64,17 +64,17 @@ theZmanimList=[
 
 
 theShiurimList=[
-{id:0,enabled:false,name:"מידע של היום", type:"מידע", scrollSpeed:5,durationAfter:5},
+{id:0,enabled:true,name:"מידע של היום", type:"מידע", scrollSpeed:5,durationAfter:5},
 {id:1,enabled:false,name:"הילולת היום", type:"הילולות",scrollSpeed:5,durationAfter:5},
-{id:2,enabled:true,name:"הלכה יומית", type:"הלכה",scrollSpeed:5,durationAfter:5},
-{id:3,enabled:false,name:"זמני שיעורים חול", type:"כלום",scrollSpeed:5,durationAfter:5},
+{id:2,enabled:false,name:"הלכה יומית", type:"הלכה",scrollSpeed:5,durationAfter:5},
+/*{id:3,enabled:false,name:"זמני שיעורים חול", type:"כלום",scrollSpeed:5,durationAfter:5},
 {id:4,enabled:false,name:"זמני שיעורים שבת", type:"כלום",scrollSpeed:5,durationAfter:5},
 {id:5,enabled:false,name:"זמני היום ....", type:"כלום",scrollSpeed:5,durationAfter:5},
-{id:6,enabled:false,name:"..... זמני היום", type:"כלום",scrollSpeed:5,durationAfter:5}
+{id:6,enabled:false,name:"..... זמני היום", type:"כלום",scrollSpeed:5,durationAfter:5}*/
 ];
 
 
-theGeneralSettings={lat:"31.777960", lng:"35.235980", zoneId:"Asia/Jerusalem"};
+theGeneralSettings={lat:"31.777960", lng:"35.235980", zoneId:"Asia/Jerusalem", eda:"sef"};
 
 theHanzahotList:Array<Hanzaha>=[];
 theHanzahaSettings={scrollSpeed:10, durationAfter:5};
